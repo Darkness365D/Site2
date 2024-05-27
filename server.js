@@ -10,13 +10,25 @@ const pool = mysql.createPool({
   host: 'kolei.ru',
   user: 'nzaskupin',
   password: '230104',
-  database: 'nzaskupin',
+  database: 'nzaskupin'
 });
 
 app.use(cors());
 app.use(bodyParser.json());
 
 const secretKey = 'ваш_секретный_ключ'; // Замените на ваш секретный ключ
+
+// Middleware для проверки токена
+const authenticateToken = (req, res, next) => {
+  const token = req.headers['authorization'];
+  if (!token) return res.status(401).send({ error: 'Токен не предоставлен' });
+
+  jwt.verify(token, secretKey, (err, user) => {
+    if (err) return res.status(403).send({ error: 'Недействительный токен' });
+    req.user = user;
+    next();
+  });
+};
 
 // API для регистрации
 app.post('/register', (req, res) => {
@@ -26,13 +38,17 @@ app.post('/register', (req, res) => {
     return res.status(400).send({ error: 'Неправильное значение для пола' });
   }
 
-  pool.query('INSERT INTO KpUser (name, phoneNumber, password, birthday, genderId, surname, patronymic) VALUES (?, ?, ?, ?, ?, ?, ?)', [name, phoneNumber, password, birthday, genderId, surname, patronymic], (error, results) => {
-    if (error) {
-      console.error('Ошибка при регистрации:', error);
-      return res.status(500).send({ error: 'Что-то пошло не так при регистрации' });
+  pool.query(
+    'INSERT INTO KpUser (name, phoneNumber, password, birthday, genderId, surname, patronymic) VALUES (?, ?, ?, ?, ?, ?, ?)',
+    [name, phoneNumber, password, birthday, genderId, surname, patronymic],
+    (error, results) => {
+      if (error) {
+        console.error('Ошибка при регистрации:', error);
+        return res.status(500).send({ error: 'Что-то пошло не так при регистрации' });
+      }
+      res.status(201).send({ id: results.insertId, name, phoneNumber, birthday, genderId, surname, patronymic });
     }
-    res.status(201).send({ id: results.insertId, name, phoneNumber, birthday, genderId, surname, patronymic });
-  });
+  );
 });
 
 // API для входа
@@ -57,6 +73,25 @@ app.post('/login', (req, res) => {
 
     const token = jwt.sign({ userId: user.id }, secretKey, { expiresIn: '1h' });
     res.send({ token });
+  });
+});
+
+// API для получения данных текущего пользователя (с аутентификацией)
+app.get('/me', authenticateToken, (req, res) => {
+  const userId = req.user.userId;
+
+  pool.query('SELECT * FROM KpUser WHERE id = ?', [userId], (error, results) => {
+    if (error) {
+      console.error('Ошибка при получении данных пользователя:', error);
+      return res.status(500).send({ error: 'Что-то пошло не так при получении данных' });
+    }
+
+    if (results.length === 0) {
+      return res.status(404).send({ error: 'Пользователь не найден' });
+    }
+
+    const user = results[0];
+    res.send(user);
   });
 });
 

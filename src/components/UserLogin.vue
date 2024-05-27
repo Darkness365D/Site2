@@ -1,18 +1,18 @@
 <template>
-  <div class="login-form">
-    <h1>Вход</h1>
+  <div>
+    <h1>Login</h1>
     <form @submit.prevent="login">
-      <div class="form-group">
-        <label for="phoneNumber">Номер телефона:</label>
-        <input type="text" id="phoneNumber" v-model="phoneNumber" required>
+      <div>
+        <label for="phoneNumber">Phone Number:</label>
+        <input type="text" v-model="phoneNumber" id="phoneNumber" required>
       </div>
-      <div class="form-group">
-        <label for="password">Пароль:</label>
-        <input type="password" id="password" v-model="password" required>
+      <div>
+        <label for="password">Password:</label>
+        <input type="password" v-model="password" id="password" required>
       </div>
-      <button type="submit">Войти</button>
-      <button type="button" @click="resetForm">Сбросить</button>
+      <button type="submit">Login</button>
     </form>
+    <p v-if="error">{{ error }}</p>
   </div>
 </template>
 
@@ -23,30 +23,27 @@ export default {
   data() {
     return {
       phoneNumber: '',
-      password: ''
+      password: '',
+      error: null
     };
   },
   methods: {
-    async login() {
-      try {
-        const response = await axios.post('http://localhost:3000/login', {
-          phoneNumber: this.phoneNumber,
-          password: this.password
-        });
-        const token = response.data.token;
-        localStorage.setItem('token', token); // Сохранение токена в localStorage
-        this.$router.push('/dashboard'); // Перенаправление на защищенный маршрут
-      } catch (error) {
-        console.error('Ошибка при входе:', error);
-      }
-    },
-    resetForm() {
-      this.phoneNumber = '';
-      this.password = '';
+    login() {
+      axios.post('http://localhost:3000/login', {
+        phoneNumber: this.phoneNumber,
+        password: this.password
+      })
+      .then(response => {
+        localStorage.setItem('token', response.data.token);
+        this.$router.push('/dashboard');
+      })
+      .catch(error => {
+        console.error('Error during login:', error);
+        this.error = 'Invalid phone number or password';
+      });
     }
   }
 };
 </script>
-
 <style src="@/styles/global.css" scoped>
 </style>

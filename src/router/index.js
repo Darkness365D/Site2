@@ -27,16 +27,16 @@ const router = createRouter({
   routes
 });
 
-// Проверка перед каждым переходом на маршрут
-router.beforeEach((to, from, next) => {
-  const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
-  const token = localStorage.getItem('token');
+// // Проверка перед каждым переходом на маршрут
+// router.beforeEach((to, from, next) => {
+//   const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
+//   const token = localStorage.getItem('token');
 
-  if (requiresAuth && !token) {
-    next('/login'); // Перенаправление на страницу входа, если пользователь не авторизован
-  } else {
-    next(); // Разрешение перехода
-  }
-});
+//   if (requiresAuth && !token) {
+//     next('/login'); // Перенаправление на страницу входа, если пользователь не авторизован
+//   } else {
+//     next(); // Разрешение перехода
+//   }
+// });
 
 export default router;
