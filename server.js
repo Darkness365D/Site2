@@ -80,7 +80,16 @@ app.post('/login', (req, res) => {
 app.get('/me', authenticateToken, (req, res) => {
   const userId = req.user.userId;
 
-  pool.query('SELECT * FROM KpUser WHERE id = ?', [userId], (error, results) => {
+  const query = `SELECT 
+      KpUser.id, KpUser.name, KpUser.phoneNumber, KpUser.birthday, 
+      KpUser.genderId, KpUser.surname, KpUser.patronymic,
+      KpAccount.cardNumber, KpAccount.Balance, KpAccount.cvvCode
+    FROM KpUser
+    LEFT JOIN KpAccount ON KpUser.id = KpAccount.userId
+    WHERE KpUser.id = ?
+  `;
+
+  pool.query(query, [userId], (error, results) => {
     if (error) {
       console.error('Ошибка при получении данных пользователя:', error);
       return res.status(500).send({ error: 'Что-то пошло не так при получении данных' });

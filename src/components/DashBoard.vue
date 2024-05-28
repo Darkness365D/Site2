@@ -5,7 +5,9 @@
       <p>Name: {{ user.name }}</p>
       <p>Surname: {{ user.surname }}</p>
       <p>Phone Number: {{ user.phoneNumber }}</p>
-      <!-- Выведите другие данные пользователя, если нужно -->
+      <p>Card Number: {{ user.cardNumber }}</p>
+      <p>Balance: {{ user.Balance }}</p>
+      <p>CVV Code: {{ user.cvvCode }}</p>
     </div>
     <div v-else>
       <p>Loading...</p>

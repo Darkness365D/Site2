@@ -1,12 +1,12 @@
 <template>
-  <div>
+  <div class="registration-form">
     <h1>Login</h1>
     <form @submit.prevent="login">
-      <div>
+      <div class="form-group">
         <label for="phoneNumber">Phone Number:</label>
         <input type="text" v-model="phoneNumber" id="phoneNumber" required>
       </div>
-      <div>
+      <div class="form-group">
         <label for="password">Password:</label>
         <input type="password" v-model="password" id="password" required>
       </div>
