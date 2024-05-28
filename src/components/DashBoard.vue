@@ -1,16 +1,18 @@
 <template>
-  <div>
-    <h1>User Dashboard</h1>
-    <div v-if="user">
-      <p>Name: {{ user.name }}</p>
-      <p>Surname: {{ user.surname }}</p>
-      <p>Phone Number: {{ user.phoneNumber }}</p>
-      <p>Card Number: {{ user.cardNumber }}</p>
-      <p>Balance: {{ user.Balance }}</p>
-      <p>CVV Code: {{ user.cvvCode }}</p>
+  <div style="background-color: aqua;">
+    <div class="top-menu">
+      <!-- Добавьте элементы верхнего меню здесь -->
+      <p>Top Menu</p>
     </div>
-    <div v-else>
-      <p>Loading...</p>
+    
+    <div class="card-form" v-if="user">
+        <img src="@/assets/f7_money-rubl-circle-fill.png">
+        <p style="padding-left: 50%;">{{ user.Balance }}</p>
+    </div>
+
+    <div class="bottom-menu">
+      <!-- Добавьте элементы нижнего меню здесь -->
+      <p>Bottom Menu</p>
     </div>
   </div>
 </template>
