@@ -32,12 +32,12 @@
     </div>
     <div class="card-form" v-if="user">
         <img src="@/assets/f7_money-rubl-circle-fill.png">
-        <p style="padding-left: 50%;">{{ user.Balance }}</p>
+        <p style="padding-left: 50%;">{{ user.Balance }} ₽</p>
     </div>
     <button>Перевести</button>
     <div class="bottom-menu">
       <!-- Добавьте элементы нижнего меню здесь -->
-      <p>Bottom Menu</p>
+      <p></p>
     </div>
   </div>
 </template>

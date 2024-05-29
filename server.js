@@ -46,7 +46,37 @@ app.post('/register', (req, res) => {
         console.error('Ошибка при регистрации:', error);
         return res.status(500).send({ error: 'Что-то пошло не так при регистрации' });
       }
-      res.status(201).send({ id: results.insertId, name, phoneNumber, birthday, genderId, surname, patronymic });
+
+      const userId = results.insertId;
+      const cardNumber = Math.floor(1000000000000000 + Math.random() * 9000000000000000).toString();
+      const cvvCode = Math.floor(100 + Math.random() * 900).toString();
+      const balance = 0; // начальный баланс
+
+      pool.query(
+        'INSERT INTO KpAccount (cardNumber, cvvCode, balance, userId) VALUES (?, ?, ?, ?)',
+        [cardNumber, cvvCode, balance, userId],
+        (error, accountResults) => {
+          if (error) {
+            console.error('Ошибка при создании счета:', error);
+            return res.status(500).send({ error: 'Что-то пошло не так при создании счета' });
+          }
+
+          res.status(201).send({
+            id: userId,
+            name,
+            phoneNumber,
+            birthday,
+            genderId,
+            surname,
+            patronymic,
+            account: {
+              cardNumber,
+              cvvCode,
+              balance
+            }
+          });
+        }
+      );
     }
   );
 });
