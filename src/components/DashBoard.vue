@@ -1,24 +1,20 @@
 <template>
-  <div style="background-color: #3C3B3B;">
-     <div class="top-menu">
-       <div class="name" align="left" >
-        <span>
+  <div class="osnovnoe" style="background-color: #3C3B3B;">
+    <div class="top-menu">
+      <div class="name" align="left">
         BanK
         <img src="@/assets/naz.png" align="center">
-        </span>
       </div>
-    <nav class="menu">
-        <a href="#glavnaya">Главная</a>
-        <a href="#">Операции</a>
-        <a href="#">Платежи</a>
-    </nav>
+      <nav class="menu">
+        <router-link to="/DashBoard">Главная</router-link>
+        <router-link to="/transferFromTo">Операции</router-link>
+        <router-link to="/payments">Платежи</router-link>
+      </nav>
       <div class="user-name" v-if="user">
-        <span>
-         {{ user.name }}
-              <img src="@/assets/Frame 11.png" align="center">
-        </span>
+        <p style="padding-right: 6%;">{{ user.name }}</p>
+        <img src="@/assets/Frame 11.png" align="center">
       </div>
-  </div>
+    </div>
     <br>
     <br>
     <br>
@@ -27,14 +23,14 @@
     <br>
     <br>
     <br>
-    <div class="text" >
-    Добрый день
+    <div class="text" style="padding-left: 5%" v-if="user">
+      {{ greeting }} {{ user.name }}
     </div>
     <div class="card-form" v-if="user">
-        <img src="@/assets/f7_money-rubl-circle-fill.png">
-        <p style="padding-left: 50%;">{{ user.Balance }} ₽</p>
+      <img src="@/assets/f7_money-rubl-circle-fill.png">
+      <p style="padding-left: 50%;">{{ user.Balance }} ₽</p>
     </div>
-    <button>Перевести</button>
+    <router-link to="/transferFromTo" class="button">Перевести</router-link>
     <div class="bottom-menu">
       <!-- Добавьте элементы нижнего меню здесь -->
       <p></p>
@@ -53,6 +49,18 @@ export default {
   },
   created() {
     this.fetchUser();
+  },
+  computed: {
+    greeting() {
+      const currentHour = new Date().getHours();
+      if (currentHour < 12) {
+        return 'Доброе утро';
+      } else if (currentHour < 18) {
+        return 'Добрый день';
+      } else {
+        return 'Добрый вечер';
+      }
+    }
   },
   methods: {
     fetchUser() {
