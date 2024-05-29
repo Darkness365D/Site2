@@ -31,6 +31,7 @@
       <p style="padding-left: 50%;">{{ user.Balance }} ₽</p>
     </div>
     <router-link to="/transferFromTo" class="button">Перевести</router-link>
+    <button @click="logout" class="logout-button">Выход</button>
     <div class="bottom-menu">
       <p></p>
     </div>
@@ -39,6 +40,7 @@
 
 <script>
 import { mapGetters } from 'vuex';
+import router from '@/router'; // Подставьте свой роутер, если он не такой
 
 export default {
   computed: {
@@ -56,9 +58,24 @@ export default {
   },
   created() {
     this.$store.dispatch('fetchUser');
+  },
+  methods: {
+    logout() {
+      // Вызываем API для выхода из аккаунта
+      this.$axios.post('/logout')
+        .then(response => {
+          console.log(response.data.message); // Логируем сообщение (опционально)
+          // Переходим на страницу входа (login)
+          router.push('/login');
+        })
+        .catch(error => {
+          console.error('Ошибка при выходе из аккаунта', error);
+        });
+    }
   }
 };
 </script>
+
 
 <style src="@/styles/global.css" scoped>
 </style>

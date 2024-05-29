@@ -215,6 +215,12 @@ app.post('/transferFromTo', authenticateToken, (req, res) => {
   });
 });
 
+// API для выхода
+app.post('/logout', (req, res) => {
+  // Можно добавить дополнительную логику для выхода
+  res.send({ message: 'Вы успешно вышли из аккаунта' });
+});
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Сервер запущен на порту ${PORT}`);
