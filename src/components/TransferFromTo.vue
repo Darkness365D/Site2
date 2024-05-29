@@ -23,57 +23,64 @@
     <br>
     <br>
     <br>
-      <h2>Перевод средств</h2>
-      <form @submit.prevent="transferMoney">
-        <label>Номер телефона получателя:</label>
-        <input type="text" v-model="phoneNumber" required>
-        <label>Сумма:</label>
-        <input type="number" v-model="amount" required>
-        <button type="submit">Отправить</button>
-      </form>
-    </div>
-    <div class="bottom-menu">
-      <!-- Добавьте элементы нижнего меню здесь -->
-      <p></p>
-    </div>
-  </template>
-  
-  <script>
-  import axios from 'axios';
-  
-  export default {
-    data() {
-      return {
-        phoneNumber: '',
-        amount: 0
-      };
-    },
-    methods: {
-      transferMoney() {
-        const token = localStorage.getItem('token');
-        axios.post('http://localhost:3000/transferFromTo', {
-          phoneNumber: this.phoneNumber,
-          amount: this.amount
-        }, {
-          headers: {
-            'Authorization': token
-          }
-        })
-        .then(response => {
-          alert(response.data.message); // Показать сообщение об успешном переводе
-          this.$router.push('/DashBoard'); // Переход на главную страницу после успешного перевода
-        })
-        .catch(error => {
-          console.error('Transfer error:', error);
-          if (error.response && error.response.data && error.response.data.error) {
-            alert(error.response.data.error);
-          }
-        });
-      }
+    <h2>Перевод средств</h2>
+    <form @submit.prevent="transferMoney">
+      <label>Номер телефона получателя:</label><br>
+      <input type="text" v-model="phoneNumber" required><br>
+      <label>Сумма:</label><br>
+      <input type="text" v-model="amount" required><br>
+      <button type="submit">Отправить</button>
+    </form>
+  </div>
+  <div class="bottom-menu">
+    <p></p>
+  </div>
+</template>
+
+<script>
+import { mapGetters } from 'vuex';
+import axios from 'axios';
+
+export default {
+  data() {
+    return {
+      phoneNumber: '',
+      amount: 0
+    };
+  },
+  computed: {
+    ...mapGetters(['user'])
+  },
+  methods: {
+    transferMoney() {
+      const token = localStorage.getItem('token');
+      axios.post('http://localhost:3000/transferFromTo', {
+        phoneNumber: this.phoneNumber,
+        amount: this.amount
+      }, {
+        headers: {
+          'Authorization': token
+        }
+      })
+      .then(response => {
+        alert(response.data.message); // Показать сообщение об успешном переводе
+        this.$router.push('/DashBoard'); // Переход на главную страницу после успешного перевода
+      })
+      .catch(error => {
+        console.error('Transfer error:', error);
+        if (error.response && error.response.data && error.response.data.error) {
+          alert(error.response.data.error);
+        }
+      });
     }
-  };
-  </script>
+  },
+  created() {
+    if (!this.user) {
+      this.$store.dispatch('fetchUser');
+    }
+  }
+};
+</script>
 
 <style src="@/styles/global.css" scoped>
 </style>
-  

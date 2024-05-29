@@ -32,58 +32,30 @@
     </div>
     <router-link to="/transferFromTo" class="button">Перевести</router-link>
     <div class="bottom-menu">
-      <!-- Добавьте элементы нижнего меню здесь -->
       <p></p>
     </div>
   </div>
 </template>
 
 <script>
-import axios from 'axios';
+import { mapGetters } from 'vuex';
 
 export default {
-  data() {
-    return {
-      user: null
-    };
-  },
-  created() {
-    this.fetchUser();
-  },
   computed: {
+    ...mapGetters(['user']),
     greeting() {
       const currentHour = new Date().getHours();
       if (currentHour < 12) {
-        return 'Доброе утро';
+        return 'Доброе утро,';
       } else if (currentHour < 18) {
-        return 'Добрый день';
+        return 'Добрый день,';
       } else {
-        return 'Добрый вечер';
+        return 'Добрый вечер,';
       }
     }
   },
-  methods: {
-    fetchUser() {
-      const token = localStorage.getItem('token'); // Предполагается, что токен хранится в localStorage
-      axios.get('http://localhost:3000/me', {
-        headers: {
-          'Authorization': token
-        }
-      })
-      .then(response => {
-        this.user = response.data;
-      })
-      .catch(error => {
-        console.error('Error fetching user:', error);
-        // Обработка ошибок
-        if (error.response && error.response.status === 401) {
-          // Если ошибка 401, возможно, нужно перенаправить на страницу логина
-          this.$router.push('/login');
-        } else if (error.response && error.response.status === 404) {
-          console.error('User not found');
-        }
-      });
-    }
+  created() {
+    this.$store.dispatch('fetchUser');
   }
 };
 </script>
