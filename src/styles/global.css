@@ -1,90 +1,160 @@
+/* Обнуление отступов и границ у html и body */
+html, body {
+  margin: 0;
+  padding: 0;
+  background-color: #3C3B3B;
+}
+
+.top-menu {
+  height: 100px;
+  width: 100%; /* Ширина 100% */
+  background-color: #BDE3FF;
+  padding: 0;
+  margin: 0; /* Отменяем все внешние отступы */
+  position: fixed; /* Закрепляем меню наверху */
+  top: 0; /* Располагаем его в верхней части страницы */
+  left: 0; /* Располагаем его по левому краю */
+  z-index: 1000; /* Задаем высокий z-index, чтобы меню было выше других элементов */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px; /* Добавляем паддинг для удобства */
+}
+
+.menu {
+  list-style-type: none;
+  display: flex;
+  margin-right: -1000px; /* Расстояние между элементами меню */
+  text-decoration: none;
+  color: #000;
+  font-size: 23px;
+  gap: 40px;
+}
+
+.user-name {
+  display: flex;
+  align-items: center; /* Выравниваем элементы по центру по вертикали */
+  margin-right: 2%;
+  font-size: 18px;
+  color: #000;
+}
+
+.user-name img {
+  width: 55px; /* Ширина изображения пользователя */
+  height: 55px; /* Высота изображения пользователя */
+  border-radius: 50%; /* Делаем изображение круглым */
+}
+
+.name {
+  font-size: 32px;
+  color: #000;
+  display: flex; /* Делаем контейнер флексбоксом */
+  align-items: center; /* Выравниваем элементы по центру по вертикали */
+  margin-right: 100px;
+  top:50%;
+  display: flex; /* Делаем контейнер флексбоксом */
+  align-items: center; /* Выравниваем элементы по центру по вертикали */
+}
+
+body::before {
+  content: "";
+  display: inline-block;
+  height: 100px; /* Высота равна высоте меню */
+}
+
 h1 {
-    color: blue;
+  color: #ffffff;
 }
 
 .registration-form {
-    max-width: 400px;
-    margin: 0 auto;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    background-color: #f9f9f9;
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+
 }
 
-
-
 .card-form {
-  margin-top: 15%;
-  margin-left: 13%;
+  margin-top: 3%;
+  margin-left: 9%;
   width: 300px;
   height: 150px;
-  border: 5px solid;
-  border-radius: 15px;
+  border: 1px solid;
+  border-radius: 10px;
+  border-color: #f9f9f9;
   display: flex;
   align-items: flex-start; /* Содержимое контейнера сверху */
   gap: 0px; /* Расстояние между полями */
   padding-left: 10px;
   padding-top: 10px; /* Отступ сверху */
+  color: #ffffff;
 }
 
-.bottom-menu{
+.bottom-menu {
   height: 100px;
   width: auto;
-  background-color: #6c757d;
-  border: 5px solid;
-  margin-bottom: 0;
+  background-color: #BDE3FF;
+  margin: 0;
+  position: relative;
 }
 
-.top-menu{
-  height: 100px;
-  width: auto;
-  background-color: #6c757d;
-  border: 5px solid;
-  margin-top: 0;
-  padding-bottom: 0%;
+.login-form {
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #ffffff;
+  border-radius: 5px;
+  background-color: #3C3B3B;
 }
 
-.login-form{
-    max-width: 400px;
-    margin: 0 auto;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    background-color: #f9f9f9;
+.form-group {
+  margin-bottom: 15px;
 }
 
-  .form-group {
-    margin-bottom: 15px;
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
 }
-  
-  .form-group label {
-    display: block;
-    margin-bottom: 5px;
+
+.form-group input {
+  width: 100%;
+  padding: 8px;
+  box-sizing: border-box;
 }
-  
-  .form-group input {
-    width: 100%;
-    padding: 8px;
-    box-sizing: border-box;
+
+button {
+  padding: 10px 15px;
+  margin-right: 10px;
+  background-color: #66c1fd;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
 }
-  
-  button {
-    padding: 10px 15px;
-    margin-right: 10px;
-    background-color: #007BFF;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
+
+button[type="button"] {
+  background-color: #25b9fd;
 }
-  
-  button[type="button"] {
-    background-color: #6c757d;
+
+button:hover {
+  opacity: 0.8;
 }
-  
-  button:hover {
-    opacity: 0.8;
-}
+
 .error {
   color: red;
+}
+
+.text {
+  font-size: 40px;
+  color:#ffffff;
+  margin-left: -70%;
+  font-weight: bold;
+}
+
+.bottonP {
+  margin-right: 0%;
+  color:#ffffff;
+
 }

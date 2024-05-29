@@ -1,15 +1,40 @@
 <template>
-  <div style="background-color: aqua;">
-    <div class="top-menu">
-      <!-- Добавьте элементы верхнего меню здесь -->
-      <p>Top Menu</p>
+  <div style="background-color: #3C3B3B;">
+     <div class="top-menu">
+       <div class="name" align="left" >
+        <span>
+        BanK
+        <img src="@/assets/naz.png" align="center">
+        </span>
+      </div>
+    <nav class="menu">
+        <a href="#glavnaya">Главная</a>
+        <a href="#">Операции</a>
+        <a href="#">Платежи</a>
+    </nav>
+      <div class="user-name" v-if="user">
+        <span>
+         {{ user.name }}
+              <img src="@/assets/Frame 11.png" align="center">
+        </span>
+      </div>
+  </div>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <div class="text" >
+    Добрый день
     </div>
-    
     <div class="card-form" v-if="user">
         <img src="@/assets/f7_money-rubl-circle-fill.png">
         <p style="padding-left: 50%;">{{ user.Balance }}</p>
     </div>
-
+    <button>Перевести</button>
     <div class="bottom-menu">
       <!-- Добавьте элементы нижнего меню здесь -->
       <p>Bottom Menu</p>
